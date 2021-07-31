@@ -156,3 +156,29 @@ func TryGetElementFromStructByName(eleName string, input interface{}) interface{
 
 	return nil
 }
+
+func TryTraverseSlice(input interface{}) {
+	var values reflect.Value
+	var can bool
+	k := reflect.TypeOf(input).Kind()
+	if k == reflect.Slice {
+		values = reflect.ValueOf(input)
+		can = true
+	}
+	if k == reflect.Ptr {
+		ke := reflect.TypeOf(input).Elem().Kind()
+		if ke == reflect.Slice {
+			values = reflect.ValueOf(input).Elem()
+			can = true
+		}
+	}
+	if can {
+		//values.Index()
+		//values.Len()
+		//values.Cap()
+		count := values.Len()
+		for i := 0; i < count; i++ {
+			fmt.Println(values.Index(i).Interface())
+		}
+	}
+}

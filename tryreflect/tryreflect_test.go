@@ -134,3 +134,11 @@ func TestTryTraverseSlice(t *testing.T) {
 func TestTryTraverseSlice2(t *testing.T) {
 	TryTraverseSlice(&global_e.Slice)
 }
+
+func TestTryTraverseTag(t *testing.T) {
+	TryTraverseTag(global_e)
+}
+
+func TestTryTraverseTag2(t *testing.T) {
+	TryTraverseTag(&global_e)
+}

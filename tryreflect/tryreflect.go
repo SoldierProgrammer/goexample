@@ -6,8 +6,8 @@ import (
 )
 
 type Example struct {
-	String  string
-	Number  int
+	String  string `key:"string" default:"test" required:"true"`
+	Number  int    `key:"number" default:"12345" required:"true"`
 	Array   [5]int
 	Slice   []int
 	Maps    map[string]string
@@ -179,6 +179,34 @@ func TryTraverseSlice(input interface{}) {
 		count := values.Len()
 		for i := 0; i < count; i++ {
 			fmt.Println(values.Index(i).Interface())
+		}
+	}
+}
+
+func TryTraverseTag(input interface{}) {
+	types := reflect.TypeOf(input)
+	count := 0
+	if types.Kind() == reflect.Struct {
+		count = types.NumField()
+	} else if types.Kind() == reflect.Ptr && types.Elem().Kind() == reflect.Struct {
+		count = types.Elem().NumField()
+		types = types.Elem()
+	} else {
+		return
+	}
+
+	for i := 0; i < count; i++ {
+		fmt.Printf("The %d tag:=======\n", i)
+		fieldTag := types.Field(i).Tag
+		// if get no key, return key is ""
+		// Get calls Lookup essentially
+		key := fieldTag.Get("key")
+		fmt.Println("    key is", key)
+		if def, ok := fieldTag.Lookup("default"); ok {
+			fmt.Println("    default is", def)
+		}
+		if req, ok := fieldTag.Lookup("required"); ok {
+			fmt.Println("    required is", req)
 		}
 	}
 }

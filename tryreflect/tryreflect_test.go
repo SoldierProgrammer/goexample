@@ -126,3 +126,11 @@ func TestTryGetElementFromStructByName3(t *testing.T) {
 		fmt.Println(v)
 	}
 }
+
+func TestTryTraverseSlice(t *testing.T) {
+	TryTraverseSlice(global_e.Slice)
+}
+
+func TestTryTraverseSlice2(t *testing.T) {
+	TryTraverseSlice(&global_e.Slice)
+}
